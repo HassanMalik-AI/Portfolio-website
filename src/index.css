@@ -2,39 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Hassan Malik Portfolio Design System - Space Theme with Royal Blue */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Space Theme Colors */
+    --space-deep: 220 100% 8%;
+    --space-dark: 225 80% 12%;
+    --space-medium: 230 60% 20%;
+    
+    /* Royal Blue Palette */
+    --royal-blue: 240 100% 50%;
+    --royal-blue-dark: 240 100% 40%;
+    --royal-blue-light: 240 100% 70%;
+    --royal-blue-glow: 240 100% 60%;
+    
+    /* Core Theme */
+    --background: var(--space-deep);
+    --foreground: 210 100% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: var(--space-dark);
+    --card-foreground: 210 100% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: var(--space-dark);
+    --popover-foreground: 210 100% 95%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: var(--royal-blue);
+    --primary-foreground: 210 100% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: var(--space-medium);
+    --secondary-foreground: 210 100% 95%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: var(--space-medium);
+    --muted-foreground: 210 40% 70%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: var(--royal-blue-light);
+    --accent-foreground: var(--space-deep);
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: var(--space-medium);
+    --input: var(--space-medium);
+    --ring: var(--royal-blue-glow);
+    
+    /* Custom Space Effects */
+    --gradient-cosmic: linear-gradient(135deg, hsl(var(--royal-blue)) 0%, hsl(var(--royal-blue-dark)) 50%, hsl(var(--space-dark)) 100%);
+    --gradient-hero: linear-gradient(180deg, transparent 0%, hsl(var(--space-deep) / 0.8) 100%);
+    --shadow-glow: 0 0 30px hsl(var(--royal-blue-glow) / 0.3);
+    --shadow-intense: 0 0 50px hsl(var(--royal-blue) / 0.5);
+    
+    /* Animation Variables */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --radius: 0.5rem;
 
@@ -55,43 +75,8 @@ All colors MUST be HSL.
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+  /* Space theme is the default - no need for separate dark mode */
+}
 }
 
 @layer base {
@@ -100,6 +85,125 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans overflow-x-hidden;
+    background: radial-gradient(ellipse at center, hsl(var(--space-dark)) 0%, hsl(var(--space-deep)) 70%);
   }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Space Animation Elements */
+  .stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 2s infinite alternate;
+  }
+  
+  .shooting-star {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, hsl(var(--royal-blue)), transparent);
+    animation: shoot 3s linear infinite;
+  }
+  
+  /* Component Styles */
+  .hero-section {
+    background: var(--gradient-cosmic);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-hero);
+    z-index: 1;
+  }
+  
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+    transition: var(--transition-smooth);
+  }
+  
+  .glow-effect:hover {
+    box-shadow: var(--shadow-intense);
+    transform: translateY(-2px);
+  }
+  
+  .cosmic-border {
+    border: 1px solid hsl(var(--royal-blue) / 0.3);
+    background: hsl(var(--space-dark) / 0.8);
+    backdrop-filter: blur(10px);
+  }
+  
+  .floating-animation {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .slide-in-bottom {
+    animation: slideInBottom 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  .fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--gradient-cosmic);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .border-cosmic {
+    border-image: var(--gradient-cosmic) 1;
+  }
+}
+
+/* Keyframe Animations */
+@keyframes twinkle {
+  0% { opacity: 0.3; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes shoot {
+  0% { transform: translateX(-100px) translateY(100px); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateX(2000px) translateY(-100px); opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes slideInBottom {
+  0% { transform: translateY(100px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  0% { transform: translateY(50px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
 }
