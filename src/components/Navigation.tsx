@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
+import logo from '@/assets/hassan-malik-logo.png';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,8 +25,13 @@ const Navigation = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="text-2xl font-bold text-gradient">
-            Hassan Malik
+          <div className="flex items-center space-x-3">
+            <img 
+              src={logo} 
+              alt="Hassan Malik Logo" 
+              className="h-10 w-10 object-contain"
+            />
+            <span className="text-2xl font-bold text-gradient">Hassan Malik</span>
           </div>
 
           {/* Desktop Navigation */}
