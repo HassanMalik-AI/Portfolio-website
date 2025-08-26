@@ -50,8 +50,8 @@ const ContactSection = () => {
     {
       icon: <Mail className="w-5 h-5 text-primary" />,
       label: 'Email',
-      value: 'hassan.malik.dev@email.com',
-      action: () => window.open('mailto:hassan.malik.dev@email.com')
+      value: 'hassanmalik1437@gmail.com',
+      action: () => window.open('mailto:hassanmalik1437@gmail.com')
     },
     {
       icon: <MapPin className="w-5 h-5 text-primary" />,
@@ -77,13 +77,13 @@ const ContactSection = () => {
     {
       icon: <Linkedin className="w-6 h-6" />,
       label: 'LinkedIn',
-      url: 'https://linkedin.com/in/hassanmalik',
+      url: 'https://www.linkedin.com/in/malik-hassan-375189305/',
       color: 'hover:text-blue-400'
     },
     {
       icon: <Mail className="w-6 h-6" />,
       label: 'Email',
-      url: 'mailto:hassan.malik.dev@email.com',
+      url: 'mailto:hassanmalik1437@gmail.com',
       color: 'hover:text-green-400'
     }
   ];
