@@ -27,15 +27,13 @@ const ChatBot = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: "Hello! I'm Hassan Malik's professional portfolio assistant. I'm here to provide information about his background, skills, projects, and career vision. How can I help you today?",
+      content: "Hello sir, what can I help you with today?",
       role: 'assistant',
       timestamp: new Date()
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [apiKey, setApiKey] = useState('');
-  const [showApiInput, setShowApiInput] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -91,16 +89,6 @@ Restrictions
 
   const sendMessage = async () => {
     if (!inputMessage.trim()) return;
-    
-    if (!apiKey && !showApiInput) {
-      setShowApiInput(true);
-      return;
-    }
-
-    if (!apiKey) {
-      alert('Please enter your OpenAI API key to use the chatbot.');
-      return;
-    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -114,39 +102,42 @@ Restrictions
     setIsLoading(true);
 
     try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      // Using Hugging Face's free inference API
+      const response = await fetch('https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-4',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            ...messages.slice(1).map(msg => ({ role: msg.role, content: msg.content })),
-            { role: 'user', content: inputMessage }
-          ],
-          max_tokens: 500,
-          temperature: 0.7,
+          inputs: `${systemPrompt}\n\nUser: ${inputMessage}\nAssistant:`,
+          parameters: {
+            max_length: 200,
+            temperature: 0.7,
+            do_sample: true,
+          }
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to get response from OpenAI');
+        throw new Error('Failed to get response');
       }
 
       const data = await response.json();
+      let assistantResponse = data[0]?.generated_text || "I'm here to help you learn about Hassan Malik's skills and experience. Feel free to ask about his projects, education, or career goals!";
+      
+      // Clean up the response to remove the input text
+      assistantResponse = assistantResponse.replace(`${systemPrompt}\n\nUser: ${inputMessage}\nAssistant:`, '').trim();
+      
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.choices[0].message.content,
+        content: assistantResponse,
         role: 'assistant',
         timestamp: new Date()
       };
 
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
-      console.error('Error calling OpenAI API:', error);
+      console.error('Error calling API:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: "I apologize, but I'm experiencing technical difficulties. Please try again later or contact Hassan directly at hassanmalik1437@gmail.com",
@@ -213,28 +204,6 @@ Restrictions
 
         {!isMinimized && (
           <CardContent className="p-3 pt-0 flex flex-col h-80">
-            {showApiInput && !apiKey && (
-              <div className="mb-3 p-3 cosmic-border rounded-lg bg-muted/50">
-                <p className="text-xs text-muted-foreground mb-2">
-                  Enter your OpenAI API key to chat:
-                </p>
-                <Input
-                  type="password"
-                  placeholder="sk-..."
-                  value={apiKey}
-                  onChange={(e) => setApiKey(e.target.value)}
-                  className="text-xs"
-                />
-                <Button
-                  onClick={() => setShowApiInput(false)}
-                  size="sm"
-                  className="mt-2 w-full"
-                  disabled={!apiKey}
-                >
-                  Start Chatting
-                </Button>
-              </div>
-            )}
 
             <ScrollArea className="flex-1 pr-2">
               <div className="space-y-3">
@@ -288,12 +257,12 @@ Restrictions
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
-                disabled={isLoading || (showApiInput && !apiKey)}
+                disabled={isLoading}
                 className="text-xs"
               />
               <Button
                 onClick={sendMessage}
-                disabled={isLoading || !inputMessage.trim() || (showApiInput && !apiKey)}
+                disabled={isLoading || !inputMessage.trim()}
                 size="sm"
                 className="px-3"
               >
