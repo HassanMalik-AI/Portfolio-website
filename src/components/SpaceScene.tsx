@@ -34,11 +34,12 @@ const SpaceScene = () => {
         top: ${startY}%;
         width: ${size}px;
         height: auto;
-        opacity: 0.8;
+        opacity: 0.9;
         z-index: 5;
         pointer-events: none;
-        animation: flyAcross ${Math.random() * 10 + 15}s linear forwards;
-        animation-delay: ${Math.random() * 20}s;
+        animation: flyAcross ${Math.random() * 5 + 8}s linear forwards;
+        animation-delay: ${Math.random() * 3}s;
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
       `;
       
       // Set CSS custom properties for the end position
@@ -55,12 +56,12 @@ const SpaceScene = () => {
     };
 
     // Create ships at intervals
-    const shipInterval = setInterval(createAlienShip, 8000);
+    const shipInterval = setInterval(createAlienShip, 6000);
     
-    // Create initial ships with delays
+    // Create initial ships with shorter delays for immediate visibility
+    setTimeout(() => createAlienShip(), 500);  // Show first ship quickly
     setTimeout(() => createAlienShip(), 2000);
-    setTimeout(() => createAlienShip(), 6000);
-    setTimeout(() => createAlienShip(), 12000);
+    setTimeout(() => createAlienShip(), 4000);
 
     // Create subtle twinkling stars
     const createStars = () => {
@@ -106,8 +107,14 @@ const SpaceScene = () => {
         left: 0,
         width: '100%',
         height: '100%',
-        backgroundImage: `url(${spaceBackground})`,
-        backgroundSize: 'cover',
+        background: `
+          radial-gradient(ellipse at top, hsl(var(--primary) / 0.1) 0%, transparent 70%),
+          radial-gradient(ellipse at 80% 20%, hsl(var(--accent) / 0.08) 0%, transparent 60%),
+          radial-gradient(ellipse at 20% 80%, hsl(var(--secondary) / 0.08) 0%, transparent 60%),
+          linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%),
+          url(${spaceBackground})
+        `,
+        backgroundSize: 'cover, cover, cover, cover, cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         zIndex: -1,
