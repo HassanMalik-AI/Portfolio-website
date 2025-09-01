@@ -1,4 +1,4 @@
-import SpaceScene from '@/components/SpaceScene';
+import SolarSystemScene from '@/components/SolarSystemScene';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
@@ -12,7 +12,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background relative">
       {/* Animated Background */}
-      <SpaceScene />
+      <SolarSystemScene />
       
       {/* Navigation */}
       <Navigation />

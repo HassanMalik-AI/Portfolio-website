@@ -223,3 +223,33 @@
     opacity: 0; 
   }
 }
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes orbit-earth {
+  from { transform: rotate(0deg) translateX(300px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(300px) rotate(-360deg); }
+}
+
+@keyframes orbit-mars {
+  from { transform: rotate(0deg) translateX(450px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(450px) rotate(-360deg); }
+}
+
+@keyframes orbit-jupiter {
+  from { transform: rotate(0deg) translateX(600px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(600px) rotate(-360deg); }
+}
+
+@keyframes orbit-saturn {
+  from { transform: rotate(0deg) translateX(750px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(750px) rotate(-360deg); }
+}
+
+@keyframes orbit-moon {
+  from { transform: rotate(0deg) translateX(200px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(200px) rotate(-360deg); }
+}
